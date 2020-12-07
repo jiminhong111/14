@@ -2,30 +2,33 @@
 #include <stdlib.h>
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
-struct Book{
+struct Book {
 	int number;
-	char title[20];
+	char title[10];
 };
 
 int main(int argc, char *argv[]) {
 
-	struct Book *p;
+	struct Book **bookshelf;
+	int i;
 	
-	p = (struct Book*)malloc(2*sizeof(struct Book));
+	bookshelf = (struct Book**)malloc(3*sizeof(struct Book*));
+	for (i=0;i<3;i++)
+		bookshelf[i] = (struct Book*)malloc(10*sizeof(struct Book));
+		
+	bookshelf[1][3].number=5;
+	strcpy(bookshelf[1][3].title,"C++Programing");
 	
-	if(p == NULL){  // 여기 조건문에 ==를 =로 쓰셔서 여기서 멈춘것 같습니다 이제  잘 나오네요! 
-		printf("메모리 할당 오류\n");
-		return -1;
-	}
+	(bookshelf[2]+4)->number=3;
+	strcpy((bookshelf[2]+4)->title,"Communications Theory");
 	
-	p->number = 1;
-	strcpy(p->title, "C Programming");
-	
-	(p+1)->number = 2;
-	strcpy((p+1)->title, "Electronics");
-	
-	printf("%s %s\n", p->title, (p+1)->title);
-	
-	free(p);
+	printf("book(1,3):%i,%s\n",(bookshelf[1]+3)->number, (bookshelf[1]+3)->title);
+	printf("book(2,4):%i,%s\n",bookshelf[2][4].number,bookshelf[2][4].title);
+
+	for(i=0;i<3;i++)
+		free(bookshelf[i]);
+	free(bookshelf);
 	return 0;
+	
+
 }
